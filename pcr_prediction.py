@@ -2,7 +2,7 @@ import numpy as np
 from scipy import interpolate
 import pylab as pl
 import pandas as pd
-# import keras
+import os
 from tensorflow import keras
 import numpy
 import matplotlib.pyplot as plt
@@ -28,27 +28,6 @@ class Attention(Layer):
                  W_regularizer=None, b_regularizer=None,
                  W_constraint=None, b_constraint=None,
                  bias=True, **kwargs):
-        """
-        Keras Layer that implements an Attention mechanism for temporal data.
-        Supports Masking.
-        Follows the work of Raffel et al. [https://arxiv.org/abs/1512.08756]
-        # Input shape
-            3D tensor with shape: `(samples, steps, features)`.
-        # Output shape
-            2D tensor with shape: `(samples, features)`.
-        :param kwargs:
-        Just put it on top of an RNN Layer (GRU/LSTM/SimpleRNN) with return_sequences=True.
-        The dimensions are inferred based on the output shape of the RNN.
-        Example:
-            # 1
-            model.add(LSTM(64, return_sequences=True))
-            model.add(Attention())
-            # next add a Dense layer (for classification/regression) or whatever...
-            # 2
-            hidden = LSTM(64, return_sequences=True)(words)
-            sentence = Attention()(hidden)
-            # next add a Dense layer (for classification/regression) or whatever...
-        """
         self.supports_masking = True
         self.init = initializers.get('glorot_uniform')
 
@@ -185,6 +164,9 @@ class TextAttBiRNN(object):
 
 
 if __name__ == "__main__":
+    cur_work_dir = os.getcwd()
+    pcr_data_file_pth = cur_work_dir + '/Data/raw_data.csv'
+
     start = time.perf_counter()
     print("start:", start)
     abc = []
@@ -300,10 +282,10 @@ if __name__ == "__main__":
         testPredictPlot[:, :] = numpy.nan
         testPredictPlot[len(train_predict) + (look_back * 2) + 1:len(df) - 1, :] = test_predict
         # plot baseline and predictions
-        ##plt.plot(scaler.inverse_transform(df),'blue')
-        ##plt.plot(trainPredictPlot,'red')
-        ##plt.plot(testPredictPlot,'green')
-        ##plt.show()
+        # plt.plot(scaler.inverse_transform(df),'blue')
+        # plt.plot(trainPredictPlot,'red')
+        # plt.plot(testPredictPlot,'green')
+        # plt.show()
         x_input = test_data[len(test_data) - T:].reshape(1, -1)
         temp_input = list(x_input)
         temp_input = temp_input[0].tolist()
@@ -317,11 +299,11 @@ if __name__ == "__main__":
                 x_input = np.array(temp_input[1:])
                 x_input = x_input.reshape(1, -1)
                 x_input = x_input.reshape((1, n_steps, 1))
-                # print(x_input)
+
                 yhat = model.predict(x_input, verbose=0)
                 temp_input.extend(yhat[0].tolist())
                 temp_input = temp_input[1:]
-                # print(temp_input)
+
                 lst_output.extend(yhat.tolist())
                 i = i + 1
             else:
