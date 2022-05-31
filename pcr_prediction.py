@@ -22,7 +22,6 @@ from tensorflow.keras import Input, Model
 from tensorflow.keras.layers import Embedding, Dense, Dropout
 
 
-# 新加attention
 class Attention(Layer):
     def __init__(self, step_dim,
                  W_regularizer=None, b_regularizer=None,
