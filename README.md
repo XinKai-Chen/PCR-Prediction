@@ -27,7 +27,6 @@ cd PCR-Prediction
 3、Install the required packs
 
 ```shell
-cd ~/PCR-Predicont
 pip install -r requirements.txt
 ```
     
