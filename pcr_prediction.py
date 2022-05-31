@@ -319,4 +319,3 @@ if __name__ == "__main__":
 
     rawdata_array = getRawdata(pcr_data_file_pth)
     print(rawdata_array)
-    pcr_prediction(rawdata_array)
