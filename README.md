@@ -4,10 +4,10 @@
 Predicting dynamic trends in PCR amplification curves in advance using a deep learning model.
 
 ## Prerequisites
-- Linux MacOS Windows
+- Linux/MacOS/Windows
 - Python 3.6+
 - CUDA
-- Tensorflow-GPU Keras
+- Tensorflow-gpu Keras
 
 ## Installation
 1. Create a conda virtual environment and activate it.
