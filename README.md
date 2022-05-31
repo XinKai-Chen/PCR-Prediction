@@ -36,4 +36,7 @@ pip install -r requirements.txt
 python pcr_prediction.py
 ```
 
+## demo
+![diagram](demo/demo.png)
+
 

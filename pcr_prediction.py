@@ -26,6 +26,7 @@ from tensorflow.keras import Input, Model
 from tensorflow.keras.layers import Embedding, Dense, Dropout
 
 import sys
+
 sys.path.append('../../')
 import configs.config as cfg
 
@@ -143,7 +144,7 @@ class LossHistory(keras.callbacks.Callback):
         plt.xlabel(loss_type)
         plt.ylabel('loss')
         plt.legend(loc="upper right")
-        plt.show()
+        # plt.show()
 
 
 class TextAttBiRNN(object):
@@ -183,7 +184,7 @@ def getRawdata(file_path):
         if extension == '.csv':
             rawdata_dataframe = pd.read_csv(file_path, usecols=use_list, index_col=0, header=None)
         elif extension == '.xlsx':
-            rawdata_dataframe = pd.read_excel(file_path, usecols=use_list,index_col=0, header=None)
+            rawdata_dataframe = pd.read_excel(file_path, usecols=use_list, index_col=0, header=None)
     rawdata_array = np.array(rawdata_dataframe.iloc[1:, :]).flatten()
     return rawdata_array
 
@@ -297,7 +298,7 @@ def pcr_prediction(raw_data):
     prediction = scaler.inverse_transform(lst_output)
     print(prediction.shape)
     x = np.arange(0, prediction.shape[0], 1)
-    plt.plot(x, prediction)
+    # plt.plot(x, prediction)
     prediction = pd.DataFrame(prediction)
 
     alldata = pd.concat([ynew_interpolate_dataframe, prediction], axis=0, ignore_index=False)  # 提取特征与标签拼接
@@ -311,6 +312,13 @@ def pcr_prediction(raw_data):
     ynew_interpolate_list = ynew_interpolate_array.flatten().tolist()
     prediction_list = prediction_array.flatten().tolist()
 
+    print(ynew_interpolate_array)
+    plt.plot(range(0, ynew_interpolate_array.shape[0], 1), ynew_interpolate_array, 'blue')
+    plt.plot(range(ynew_interpolate_array.shape[0], ynew_interpolate_array.shape[0] + prediction_array.shape[0], 1),
+             prediction_array, 'red')
+    plt.legend(['raw data', 'prediction results'])
+    plt.show()
+
     return training_squared_error, test_squared_error, ynew_interpolate_list, prediction_list
 
 
@@ -318,3 +326,4 @@ if __name__ == "__main__":
     pcr_data_file_pth = cur_dir_path + '/raw_data/raw_data.csv'
 
     rawdata_array = getRawdata(pcr_data_file_pth)
+    pcr_prediction(rawdata_array)
