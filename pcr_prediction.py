@@ -315,7 +315,6 @@ def pcr_prediction(raw_data):
 
 
 if __name__ == "__main__":
-    pcr_data_file_pth = cur_dir_path + '/data/raw_data.csv'
+    pcr_data_file_pth = cur_dir_path + '/raw_data/raw_data.csv'
 
     rawdata_array = getRawdata(pcr_data_file_pth)
-    print(rawdata_array)
